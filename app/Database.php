@@ -4,7 +4,7 @@ class Database {
 
     protected $db;
 
-    public function connect () {
+    public static function connect () {
         $settings = include_once(__DIR__ . '/../config/config.php');
         $conn = $settings['settings']['connection'];
         $db = new mysqli(
@@ -13,8 +13,6 @@ class Database {
                     $conn['pwd'],
                     $conn['name'] 
                 );
-
-
         if ($db === false) {
             die("Could not connect.");
         }

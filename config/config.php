@@ -10,6 +10,6 @@ return [
             'name' => 'neo',
             'user' => 'neo',
             'pwd' => 'legal',
-        ]
+        ],
     ]
 ];

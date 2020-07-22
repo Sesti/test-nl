@@ -38,17 +38,7 @@ return function (App $app) {
         // Instanciate Database helper object
         // @Todo switch to OOP
         require_once(__DIR__ . "/Database.php");
-        $settings = include_once(__DIR__ . '/../config/config.php');
-        $conn = $settings['settings']['connection'];
-        $db = new mysqli(
-                    $conn['host'] . ":" . $conn['port'], 
-                    $conn['user'], 
-                    $conn['pwd'],
-                    $conn['name'] 
-                );
-        if ($db === false) {
-            die("Could not connect.");
-        }
+        $db = Database::connect();
 
         // Create query and compare credentials with database
         $query = $db->prepare("SELECT username FROM Users WHERE username = ? AND password = ?");
