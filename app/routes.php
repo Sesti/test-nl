@@ -35,8 +35,7 @@ return function (App $app) {
         // Hash the password
         $creds->password = hash('sha256', $creds->password);        
 
-        // Instanciate Database helper object
-        // @Todo switch to OOP
+        // Connect to DB
         require_once(__DIR__ . "/Database.php");
         $db = Database::connect();
 
@@ -61,7 +60,20 @@ return function (App $app) {
      *  Returns the users list in json format.
      */
     $app->get('/users', function (Request $request, Response $response) {
-        $response->getBody()->write(json_encode(['users' => 'coming soon...']));
+        // Connect to DB
+        require_once(__DIR__ . "/Database.php");
+        $db = Database::connect();
+
+        $query = $db->prepare("SELECT username FROM Users");
+        $query->execute();
+        $result = $query->get_result();
+        $users = [];
+        while ($data = $result->fetch_assoc()) {
+            $users[] = $data['username'];
+        }
+        $query->close();
+
+        $response->getBody()->write(json_encode(['users' => $users]));
 
         return $response->withHeader('Content-Type', 'application/json');
     });
