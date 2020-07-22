@@ -7,6 +7,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Fix path problem
 // $path = parse_url($_SERVER['REQUEST_URI'])['path'];
 // $scriptName = dirname(dirname($_SERVER['SCRIPT_NAME']));
 // $len = strlen($scriptName);

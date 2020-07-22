@@ -53,12 +53,19 @@
             cursor:pointer;
             background:#FFF;
         }
+        .form-errors{
+            color:red;
+            text-align: center;
+            display:block;
+            width:100%;
+        }
     </style>
 </head>
 <body>
     <div id="login">
         <form method="POST" action="/">
             <h1>Login</h1>
+            <span class="form-errors"></span>
             <div class="form-group">
                 <label for="username">Username :</label>
                 <input name="username" />
@@ -75,6 +82,7 @@
 </body>
 <script>
     const loginBtn = document.querySelector('#login_submit');
+    const errorField = document.querySelector('.form-errors');
     const userField = document.querySelector('[name=username]');
     const pwdField = document.querySelector('[name=password]');
     if (loginBtn) {
@@ -91,8 +99,23 @@
                     username: userField.value, 
                     password: pwdField.value
                 })
-            });
+            })
+            .then(res => res.json())
+            .then(res => manageAuthentication(res));
         });
+    }
+
+    const manageAuthentication = res => {
+        if (res.status === 'error') {
+            errorField.innerHTML = 'Server error.';
+        } else if(res.status === 'failed') {
+            errorField.innerHTML = 'Login failed.';
+        } else if(res.status === 'success') {
+            // Manage Token
+            errorField.innerHTML = '';        
+        } else {
+            errorField.innerHTML = '';
+        }
     }
 </script>
 </html>
